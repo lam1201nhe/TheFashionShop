@@ -93,6 +93,45 @@ public class CustomerDAO {
     }
     
       
+      public void SearchCustomerByEmail(String cusEmail) {
+        String query = " select * from dbo.Customer\n"
+                + "\n"
+                + "where Customer.Email  = ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, cusEmail);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Customer cc = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6));
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Cannot get customer " + e.getMessage());
+        }
+       
+
+    }
+      public void SearchCustomerByID(int  cusID) {
+        String query = " select * from dbo.Customer\n"
+                + "\n"
+                + "where  Customer.CustomerID  = ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, cusID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Customer p = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6));
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Cannot get Customer " + e.getMessage());
+        }
+       
+
+    }
+      
       
 }
 
