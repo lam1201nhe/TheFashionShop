@@ -7,7 +7,10 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import model.Account;
+import model.Customer;
 /**
  *
  * @author Admin
@@ -54,5 +57,81 @@ public class CustomerDAO {
         }
         return false;
     }
+    
+    
+      public List<Customer> getCustomers(){
+        List<Customer> list = new ArrayList<>();
+         
+        String query = "select * from Customer";
+        
+        try{
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                list.add(new Customer(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6))
+                
+                
+                
+                );
+            }
+            
+            
+            
+            
+            
+        }catch(Exception e){
+            System.out.println("Cannot get Customer " + e.getMessage());
+        }
+        return list;
+    }
+    
+      
+      public void SearchCustomerByEmail(String cusEmail) {
+        String query = " select * from dbo.Customer\n"
+                + "\n"
+                + "where Customer.Email  = ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, cusEmail);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Customer cc = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6));
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Cannot get customer " + e.getMessage());
+        }
+       
+
+    }
+      public void SearchCustomerByID(int  cusID) {
+        String query = " select * from dbo.Customer\n"
+                + "\n"
+                + "where  Customer.CustomerID  = ?";
+        try {
+            conn = DBContext.getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, cusID);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                Customer p = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6));
+                
+            }
+        } catch (Exception e) {
+            System.out.println("Cannot get Customer " + e.getMessage());
+        }
+       
+
+    }
+      
+      
 }
 
